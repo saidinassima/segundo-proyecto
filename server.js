@@ -20,6 +20,15 @@ app.use(morgan('dev'));
 // instalación -> npm i express-fileupload
 app.use(fileUpload());
 
+/*
+################
+## MIDDLEWARE ##
+################
+*/
+const isAuth = require('./middlewares/isAuth');
+const canEditNews = require('./middlewares/canEditNews');
+
+
 /*   ### Controladores de Usuarios ###  */
 
 const newUser = require('./controllers/users/newUser');
@@ -33,6 +42,34 @@ app.post('/register', newUser);
 
 // Login de usuario
 app.post('/login', loginUser);
+
+/*
+############################
+#### CONTROLADORES NEWS ####
+############################
+*/
+const editNews = require('./Publicaciones/editarNoticia');
+const deleteNews = require('./Publicaciones/eliminarNoticia');
+const listNews = require('./controllers/Publicaciones/listTema');
+const addLikesNews = require('./controllers/Publicaciones/addLikesNews');
+const addDislikesNews = require('./controllers/Publicaciones/addDislikeNews');
+
+
+/*
+######################
+### ENDPOINTS NEWS ###
+######################
+*/
+// Editar datos de la noticia
+app.put('/Publicaciones/:idNews', isAuth, canEditNews, editNews)
+// Eliminar una noticia
+app.delete('/Publicaciones/:idNews', isAuth, canEditNews, deleteNews)
+// Filtrar noticias por temas
+app.get('Publicaciones', listNews)
+// Agregar o quitar Publicación de like
+app.post('/Publicaciones/:idNews', isAuth, addLikesNews)
+// Agregar o quitar Publicación de Dislike
+app.post('/Publicaciones/:idNews', isAuth, addDislikesNews)
 
 // Middleware de Error
 app.use((error, req, res, _) => {
