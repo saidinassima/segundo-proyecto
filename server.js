@@ -24,6 +24,9 @@ app.use(fileUpload());
 
 const newUser = require('./controllers/users/newUser');
 const loginUser = require('./controllers/users/loginUser');
+const editUserPass = require('./controllers/users/editPassUser');
+const editUser = require('./controllers/users/editUserData');
+const deleteUser = require('./controllers/users/deleteUser');
 
 /*   ### Controladores de News ###  */
 
@@ -32,12 +35,16 @@ const listUserNews = require('./controllers/News/listUserNews');
 const photoNews = require('./controllers/News/addNewsPhoto');
 const listNews = require('./controllers/News/listNews');
 const listFilterUserNews = require('./controllers/News/listFilterNews');
+const addDunlikesNews = require('./controllers/News/addUnlikeNews');
+const addLikesNews = require('./controllers/News/addLikeNews');
+const editNews = require('./controllers/News/editNews');
+const deleteNews = require('./controllers/News/deleteNews');
 
 /*   ### Middlewares ###  */
 
 // Middleware de validación de usuario
 const isAuth = require('./middlewares/isAuth');
-const { application } = require('express');
+const canEditNews = require('./middlewares/canEditNews');
 
 /*   ### Endpoints Usuarios ###  */
 
@@ -46,6 +53,15 @@ app.post('/register', newUser);
 
 // Login de usuario
 app.post('/login', loginUser);
+
+// Editar Password del usuario
+app.put('/user/password', isAuth, editUserPass);
+
+// Editar email y Username del usuario
+app.put('/user', isAuth, editUser);
+
+// Borrar un usuario
+app.delete('/user', isAuth, deleteUser);
 
 /*   ### Endpoints News ###  */
 
@@ -62,7 +78,19 @@ app.get('/listNews', listNews);
 app.get('/listFilterNews', listFilterUserNews);
 
 // Añadir la photo de la Noticia
-app.post('/addPhoto', isAuth, photoNews);
+app.post('/News/photo', isAuth, photoNews);
+
+// Dar un no like a una noticia
+app.post('/News/:idNews/unlike', isAuth, addDunlikesNews);
+
+// Dar un like a una noticia
+app.post('/News/:idNews/like', isAuth, addLikesNews);
+
+// Editar una Noticia
+app.put('/News/:idNews', isAuth, editNews, canEditNews);
+
+// Borrar una Noticia
+app.delete('/News/:idNews', deleteNews);
 
 // Middleware de Error
 app.use((error, req, res, _) => {
