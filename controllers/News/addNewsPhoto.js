@@ -18,7 +18,7 @@ const addNewsPhoto = async (req, res, next) => {
         // Comprobamos que nos ha enviado una foto nueva para añadir
         if (!req.files || !req.files.photo) {
             throw generateError(
-                '¡Debes indicar una nueva foto de producto!',
+                '¡Debes indicar una nueva foto de la Noticia!',
                 400
             ); // Bad Request
         }

@@ -57,7 +57,8 @@ const loginUser = async (req, res, next) => {
         res.send({
             status: 'Ok',
             message: '¡Sesión iniciada con éxito!',
-            //authToken: token,
+            authToken: token,
+            token: tokenInfo,
         });
     } catch (error) {
         // En caso de que ocurra algun error lo pasamos
