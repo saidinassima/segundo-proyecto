@@ -18,9 +18,7 @@ const listUserNews = async (req, res, next) => {
 
         // Recuperamos los datos de las noticias guardadas en la base de datos
         const [news] = await connection.query(
-            `SELECT *
-              FROM news
-             WHERE idUser = ?`,
+            `SELECT * FROM news WHERE idUser = ?`,
             [idUserAuth]
         );
 
