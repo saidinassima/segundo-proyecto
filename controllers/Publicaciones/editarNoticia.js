@@ -1,6 +1,5 @@
-const getDB = require('../db/getDB');
-const { generateError } = require('../helpers');
-
+const getDB = require('../../db/getDB');
+const { generateError } = require('../../helpers');
 
 const editNews = async (req, res, next) => {
     let connection;

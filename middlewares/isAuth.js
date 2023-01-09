@@ -2,7 +2,7 @@
 Middleware que comprobará si el usuario a iniciado sesión o no
 */
 
-const getDB = require('../database/getDB');
+const getDB = require('../db/getDB');
 const { generateError } = require('../helpers');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();

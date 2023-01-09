@@ -28,7 +28,6 @@ app.use(fileUpload());
 const isAuth = require('./middlewares/isAuth');
 const canEditNews = require('./middlewares/canEditNews');
 
-
 /*   ### Controladores de Usuarios ###  */
 
 const newUser = require('./controllers/users/newUser');
@@ -48,12 +47,11 @@ app.post('/login', loginUser);
 #### CONTROLADORES NEWS ####
 ############################
 */
-const editNews = require('./Publicaciones/editarNoticia');
-const deleteNews = require('./Publicaciones/eliminarNoticia');
+const editNews = require('./controllers/Publicaciones/editarNoticia');
+const deleteNews = require('./controllers/Publicaciones/eliminarNoticia');
 const listNews = require('./controllers/Publicaciones/listTema');
 const addLikesNews = require('./controllers/Publicaciones/addLikesNews');
 const addDislikesNews = require('./controllers/Publicaciones/addDislikeNews');
-
 
 /*
 ######################
@@ -61,15 +59,15 @@ const addDislikesNews = require('./controllers/Publicaciones/addDislikeNews');
 ######################
 */
 // Editar datos de la noticia
-app.put('/Publicaciones/:idNews', isAuth, canEditNews, editNews)
+app.put('/Publicaciones/:idNews', isAuth, canEditNews, editNews);
 // Eliminar una noticia
-app.delete('/Publicaciones/:idNews', isAuth, canEditNews, deleteNews)
+app.delete('/Publicaciones/:idNews', isAuth, canEditNews, deleteNews);
 // Filtrar noticias por temas
-app.get('Publicaciones', listNews)
+app.get('Publicaciones', listNews);
 // Agregar o quitar Publicación de like
-app.post('/Publicaciones/:idNews', isAuth, addLikesNews)
+app.post('/Publicaciones/:idNews', isAuth, addLikesNews);
 // Agregar o quitar Publicación de Dislike
-app.post('/Publicaciones/:idNews', isAuth, addDislikesNews)
+app.post('/Publicaciones/:idNews', isAuth, addDislikesNews);
 
 // Middleware de Error
 app.use((error, req, res, _) => {

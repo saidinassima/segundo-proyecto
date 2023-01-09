@@ -1,5 +1,5 @@
-const getDB = require("../db/getDB");
-const { deletePhoto } = require("../helpers");
+const getDB = require('../../db/getDB');
+const { deletePhoto } = require('../../helpers');
 
 const deleteNews = async (req, res, next) => {
     let connection;

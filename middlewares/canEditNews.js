@@ -2,7 +2,7 @@
 MIDDLEWARE que comprueba si la noticia pertenece al usuario que tiene la sesión iniciada
 */
 
-const getDB = require('../database/getDB');
+const getDB = require('../db/getDB');
 const { generateError } = require('../helpers');
 
 const canEditNews = async (req, res, next) => {

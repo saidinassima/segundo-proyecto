@@ -16,7 +16,7 @@ temáticas fijas.
 ● Visualizar la lista de últimas noticias (listado con título, tema, entradilla y foto)
 ● Visualizar una única noticia completa
 ● Opcional:
-○ Filtrado las noticias por tema
+○ Filtrado las noticias por tema ✅
 ● Login (Email y Password)✅
 ● Registro:✅
 ○ Nombre
@@ -34,8 +34,8 @@ temáticas fijas.
 ○ Entradilla
 ○ Texto de la noticia
 ○ Tema
-● Editar una noticia publicada por el mismo usuario
-● Borrar una noticia publicada por el usuario
+● Editar una noticia publicada por el mismo usuario ✅
+● Borrar una noticia publicada por el usuario ✅
 ● Opcional
 ○ Gestión del perfil de usuario (Nombre, Email, Biografía, Foto, …)
-○ Votar positivamente o negativamente otras noticias
+○ Votar positivamente o negativamente otras noticias ✅
