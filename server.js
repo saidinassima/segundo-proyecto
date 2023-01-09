@@ -35,7 +35,7 @@ const listUserNews = require('./controllers/News/listUserNews');
 const photoNews = require('./controllers/News/addNewsPhoto');
 const listNews = require('./controllers/News/listNews');
 const listFilterUserNews = require('./controllers/News/listFilterNews');
-const addDunlikesNews = require('./controllers/News/addUnlikeNews');
+const addunlikesNews = require('./controllers/News/addUnlikeNews');
 const addLikesNews = require('./controllers/News/addLikeNews');
 const editNews = require('./controllers/News/editNews');
 const deleteNews = require('./controllers/News/deleteNews');
@@ -81,7 +81,7 @@ app.get('/listFilterNews', listFilterUserNews);
 app.post('/News/photo', isAuth, photoNews);
 
 // Dar un no like a una noticia
-app.post('/News/:idNews/unlike', isAuth, addDunlikesNews);
+app.post('/News/:idNews/unlike', isAuth, addunlikesNews);
 
 // Dar un like a una noticia
 app.post('/News/:idNews/like', isAuth, addLikesNews);
