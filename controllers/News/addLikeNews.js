@@ -33,9 +33,14 @@ const addLikesNews = async (req, res, next) => {
                 [idUserAuth, idNews]
             );
 
+            await connection.query(
+                `DELETE FROM user_unlike_news WHERE idUser = ? AND idNews = ?`,
+                [idUserAuth, idNews]
+            );
+
             res.send({
                 status: 'ok',
-                message: 'La noticia se ha añadido a favoritos',
+                message: 'Se le ha dado like a la noticia',
             });
         } else {
             // Si la noticia está marcada como like, la eliminamos
@@ -45,7 +50,7 @@ const addLikesNews = async (req, res, next) => {
             );
             res.send({
                 status: 'ok',
-                message: 'La noticia se ha borrado de tu favoritos',
+                message: 'Se le ha quitado el like a la noticia',
             });
         }
     } catch (error) {

@@ -12,6 +12,8 @@ const addNewsPhoto = async (req, res, next) => {
         // Guardamos la conexion en una variable
         connection = await getDB();
 
+        const { idNews } = req.params;
+
         // Recuperamos el id del usuario logueado
         const idUserAuth = req.userAuth.id;
 
@@ -24,25 +26,35 @@ const addNewsPhoto = async (req, res, next) => {
         }
 
         // Obtenemos la foto antigua de la Noticia
-        const [photoNews] = await connection.query(
-            `SELECT photo FROM news WHERE idUser = ?`,
-            [idUserAuth]
+        const [[selectedNew]] = await connection.query(
+            `SELECT idUser,photo FROM news WHERE id = ?`,
+            [idNews]
         );
+        if (!selectedNew) {
+            throw generateError('La noticia no existe', 404);
+        }
+
+        if (selectedNew.idUser !== idUserAuth) {
+            throw generateError(
+                'No tienes permisos para modificar la noticia',
+                403
+            );
+        }
 
         // Si la noticia tiene una foto antigua la vamos a eliminar primero
-        if (photoNews[0].photo) {
+        if (selectedNew.photo) {
             // Eliminamos la foto del servidor
-            await deletePhoto(photoNews[0].photo, 0);
+            await deletePhoto(selectedNew.photo);
         }
 
         // Ejecutamos la funcion savePhoto para guardar en el servidor la nueva foto de la noticia
         // y guardamos en la variable photoName el nombre de la imagen que devuelve la función
-        const photoName = await savePhoto(req.files.photo, 1); // 1 -> indica que lo guardamos en static/photos
+        const photoName = await savePhoto(req.files.photo); // 1 -> indica que lo guardamos en static/photos
 
         // Añadimos la foto de la noticia del usuario concreto a la base de datos
-        await connection.query(`UPDATE news SET photo = ? WHERE idUser = ?`, [
+        await connection.query(`UPDATE news SET photo = ? WHERE id = ?`, [
             photoName,
-            idUserAuth,
+            idNews,
         ]);
 
         // Respondemos

@@ -26,16 +26,22 @@ const addDunlikesNews = async (req, res, next) => {
             `SELECT * FROM user_unlike_news WHERE idUser = ? AND idNews = ?`,
             [idUserAuth, idNews]
         );
-        // Si no está en no favoritos, lo añadimos
+        // Si no hay dislike, lo creamos y eliminamos el like
         if (!dislike) {
             await connection.query(
                 `INSERT INTO user_unlike_news (idUser, idNews)
                 VALUES(?, ?) `,
                 [idUserAuth, idNews]
             );
+
+            await connection.query(
+                `DELETE FROM user_like_news WHERE idUser = ? AND idNews = ?`,
+                [idUserAuth, idNews]
+            );
+
             res.send({
                 status: 'ok',
-                message: 'La noticia se ha añadido a tus no favoritos',
+                message: 'Se le ha dado dislike a la noticia',
             });
         } else {
             // Si la noticia está marcada como dislike, la eliminamos
@@ -46,7 +52,7 @@ const addDunlikesNews = async (req, res, next) => {
 
             res.send({
                 status: 'ok',
-                message: 'La noticia se ha borrado de los no favoritos',
+                message: 'Se ha quitado el dislike',
             });
         }
     } catch (error) {
