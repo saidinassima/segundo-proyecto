@@ -1,7 +1,7 @@
 {
     "name": "Segundo-Proyecto",
     "version": "1.0.0",
-    "description": "Esta api es un pequeño ejercicio simulando la creacion de usuarios y subida de productos en una web tipo wallapop.",
+    "description": "Es api de noticias tipo Reddit.",
     "main": "server.js",
     "scripts": {
         "dev": "nodemon server.js",
