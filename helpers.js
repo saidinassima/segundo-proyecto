@@ -3,8 +3,11 @@ const path = require('path');
 const sharp = require('sharp');
 const uuid = require('uuid');
 const crypto = require('crypto');
-const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
+
+// Para subir las imagenes de photo y de News debemos crear la ruta absoluta
+// a cada una de sus carpetas
+const photosDir = path.join(__dirname, 'static', 'photos');
 
 // Recuperamos las variables de entorno
 
@@ -20,8 +23,51 @@ function generateError(message, code) {
     return error;
 }
 
+// Funcion que guarda una nueva foto en el servidor y devuelve un nombre único para la imagen
+async function savePhoto(imagen) {
+    try {
+        // Convertimos la imagen recibida en un objeto sharp
+        const sharpImage = sharp(imagen.data);
+
+        // Variable que guarda la ruta absoluta al directorio de avatar o producto, dependiendo del tipo
+        let photoPath;
+
+        // Generamos un nombre único para la imagen
+        const imageName = uuid.v4() + '.jpg';
+
+        //Guardamos en la variable la foto de la noticia
+        photoPath = path.join(photosDir, imageName);
+
+        // Guardamos la imagen
+        sharpImage.toFile(photoPath);
+
+        // Devolvemos el nombre de imagen generado
+        return imageName;
+    } catch (error) {
+        throw new Error('¡Ha ocurrido un error al procesar la imagen!');
+    }
+}
+
+// Funcion que elimina una imagen del servidor
+async function deletePhoto(photoName) {
+    try {
+        // Variable que va a guardar la ruta absoluta a la imagen que hay que borrar
+        let photoPath;
+
+        //Guardamos en la variable la foto de la noticia
+        photoPath = path.join(photosDir, photoName);
+
+        // Una vez tenemos la ruta absoluta hacia la imagen creada, la eliminamos
+        await unlink(photoPath);
+    } catch (error) {
+        throw new Error('¡Error al procesar la imagen del servidor!');
+    }
+}
+
 // Exportamos las funciones
 module.exports = {
     generateError,
     generateRandomCode,
+    savePhoto,
+    deletePhoto,
 };
