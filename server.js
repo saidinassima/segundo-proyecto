@@ -87,7 +87,7 @@ app.post('/News/:idNews/photo', isAuth, photoNews);
 // Dar dislike a una noticia
 app.post('/News/:idNews/unlike', isAuth, addunlikesNews);
 
-// Dar  like a una noticia
+// Dar like a una noticia
 app.post('/News/:idNews/like', isAuth, addLikesNews);
 
 // Editar una Noticia
