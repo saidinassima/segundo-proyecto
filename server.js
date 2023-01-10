@@ -84,10 +84,10 @@ app.get('/listFilterNews', listFilterUserNews);
 // Añadir la photo de la Noticia
 app.post('/News/:idNews/photo', isAuth, photoNews);
 
-// Dar un no like a una noticia
+// Dar dislike a una noticia
 app.post('/News/:idNews/unlike', isAuth, addDunlikesNews);
 
-// Dar un like a una noticia
+// Dar like a una noticia
 app.post('/News/:idNews/like', isAuth, addLikesNews);
 
 // Editar una Noticia
