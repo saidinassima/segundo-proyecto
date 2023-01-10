@@ -36,7 +36,7 @@ const photoNews = require('./controllers/News/addNewsPhoto');
 const listNews = require('./controllers/News/listNews');
 const getNewById = require('./controllers/News/getNewByID');
 const listFilterUserNews = require('./controllers/News/listFilterNews');
-const addunlikesNews = require('./controllers/News/addUnlikeNews');
+const addDunlikesNews = require('./controllers/News/addUnlikeNews');
 const addLikesNews = require('./controllers/News/addLikeNews');
 const editNews = require('./controllers/News/editNews');
 const deleteNews = require('./controllers/News/deleteNews');
@@ -75,7 +75,7 @@ app.get('/profile', isAuth, getUserProfile);
 // Listar todas las noticias
 app.get('/listNews', listNews);
 
-// Listar una Noticia por el id de la Noticia
+// Listar Noticias por id de Noticia
 app.get('/news/:idNew', getNewById);
 
 // Listar Noticias filtradas por tema
@@ -84,10 +84,10 @@ app.get('/listFilterNews', listFilterUserNews);
 // Añadir la photo de la Noticia
 app.post('/News/:idNews/photo', isAuth, photoNews);
 
-// Dar dislike a una noticia
-app.post('/News/:idNews/unlike', isAuth, addunlikesNews);
+// Dar un no like a una noticia
+app.post('/News/:idNews/unlike', isAuth, addDunlikesNews);
 
-// Dar like a una noticia
+// Dar un like a una noticia
 app.post('/News/:idNews/like', isAuth, addLikesNews);
 
 // Editar una Noticia
