@@ -29,7 +29,7 @@ const listFilterUserNews = async (req, res, next) => {
         res.send({
             status: 'Ok',
             message: '¡Lista de Noticias!',
-            news: news,
+            data: news,
         });
     } catch (error) {
         next(error);
