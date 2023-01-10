@@ -29,7 +29,7 @@ const deleteNews = async (req, res, next) => {
         // Una vez eliminadas las fotos, eliminamos la noticia
         await connection.query(
             `
-        DELTE FROM news WHERE id = ?
+        DELETE FROM news WHERE id = ?
         `,
             [idNews]
         );
