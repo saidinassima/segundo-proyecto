@@ -75,6 +75,7 @@ app.get('/profile', isAuth, getUserProfile);
 // Listar todas las noticias
 app.get('/listNews', listNews);
 
+// Listar una Noticia por el id de la Noticia
 app.get('/news/:idNew', getNewById);
 
 // Listar Noticias filtradas por tema
@@ -83,10 +84,10 @@ app.get('/listFilterNews', listFilterUserNews);
 // Añadir la photo de la Noticia
 app.post('/News/:idNews/photo', isAuth, photoNews);
 
-// Dar un no like a una noticia
+// Dar dislike a una noticia
 app.post('/News/:idNews/unlike', isAuth, addunlikesNews);
 
-// Dar un like a una noticia
+// Dar  like a una noticia
 app.post('/News/:idNews/like', isAuth, addLikesNews);
 
 // Editar una Noticia
