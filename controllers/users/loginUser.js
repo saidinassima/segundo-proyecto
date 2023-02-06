@@ -1,7 +1,8 @@
 const getDB = require('../../db/getDB');
-const { generateError } = require('../../helpers');
+const { generateError, validateSchema } = require('../../helpers');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const loginUserSchema = require('../../schemas/loginUserSchema');
 require('dotenv').config();
 
 const loginUser = async (req, res, next) => {
@@ -11,13 +12,11 @@ const loginUser = async (req, res, next) => {
         // Abrimos una conexión con la base de datos
         connection = await getDB();
 
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de usersSchema
+        await validateSchema(loginUserSchema, req.body);
+
         // Obtenemos los datos necesarios para el login
         const { email, password } = req.body;
-
-        // Si no indica un email o la contraseña lanzamos un error
-        if (!email || !password) {
-            throw generateError('Faltan campos obligatorios.', 400); // Bad Request
-        }
 
         // Comprobamos que existe un usuario con ese email en la base de datos y está activo
         const [username] = await connection.query(

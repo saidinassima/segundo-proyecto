@@ -1,14 +1,21 @@
 const getDB = require('../../db/getDB');
-const { generateError } = require('../../helpers');
+const { generateError, validateSchema } = require('../../helpers');
+const idNewsSchema = require('../../schemas/idNewsSchema');
 
 const addDunlikesNews = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
+
         // Recuperamos el id del usuario
         const idUserAuth = req.userAuth.id;
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de idNewsSchema
+        validateSchema(idNewsSchema, req.params);
+
         // Destructuramos el id de las noticias de los path params
         const { idNews } = req.params;
+
         // Comprobamos que el ususario no es el propietario de la noticia
         const [news] = await connection.query(
             `SELECT * FROM news WHERE id = ?`,

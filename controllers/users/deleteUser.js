@@ -1,20 +1,20 @@
 const getDB = require('../../db/getDB');
-const { generateError } = require('../../helpers');
+const { generateError, validateSchema } = require('../../helpers');
 const bcrypt = require('bcrypt');
+const delPassSchema = require('../../schemas/DelPassSchema');
+
 const deleteUser = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
         const idUserAuth = req.userAuth.id;
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de usersSchema
+        await validateSchema(delPassSchema, req.body);
+
         // Recuperamos la contraseña del req.bocy
         const { password } = req.body;
-        // Si no indica la contraseña lanzamos un error
-        if (!password) {
-            throw generateError(
-                '¡Debes indicar la contraseña para eliminar el usuario!',
-                400
-            );
-        }
+
         // Recuperamos la contraseña del usuario para hacer la comparación
         const [user] = await connection.query(
             `SELECT password FROM user WHERE id = ?`,
@@ -22,6 +22,7 @@ const deleteUser = async (req, res, next) => {
         );
         // Comparar las contraseñas
         const validPassword = await bcrypt.compare(password, user[0].password);
+
         // Si no coinciden las contraseñas
         if (!validPassword) {
             throw generateError('La contraseña no es váliida', 401);
@@ -37,4 +38,5 @@ const deleteUser = async (req, res, next) => {
         if (connection) connection.release();
     }
 };
+
 module.exports = deleteUser;

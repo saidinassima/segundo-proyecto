@@ -3,7 +3,13 @@
 */
 
 const getDB = require('../../db/getDB');
-const { generateError, savePhoto, deletePhoto } = require('../../helpers');
+const {
+    generateError,
+    savePhoto,
+    deletePhoto,
+    validateSchema,
+} = require('../../helpers');
+const idNewsSchema = require('../../schemas/idNewsSchema');
 
 const addNewsPhoto = async (req, res, next) => {
     let connection;
@@ -11,6 +17,9 @@ const addNewsPhoto = async (req, res, next) => {
     try {
         // Guardamos la conexion en una variable
         connection = await getDB();
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de idNewsSchema
+        validateSchema(idNewsSchema, req.params);
 
         const { idNews } = req.params;
 

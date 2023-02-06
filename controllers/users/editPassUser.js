@@ -1,20 +1,25 @@
 //Controlador para editar la contraseña de usuario
-const { generateError } = require('../../helpers');
+const { generateError, validateSchema } = require('../../helpers');
 const bcrypt = require('bcrypt');
 const getDB = require('../../db/getDB');
+const editPassSchema = require('../../schemas/editPassSchema');
+
 let saltRounds = 1;
 
 const editUserPass = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
+
         // Recuperamos la contraseña
         const idUserAuth = req.userAuth.id;
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de usersSchema
+        await validateSchema(editPassSchema, req.body);
+
         // Recuperamos del req.body los datos necesarios
         const { email, newPass, confirmNewPass } = req.body;
-        if (!email || !newPass || !confirmNewPass) {
-            throw generateError('Faltan datos obligatorios', 400);
-        }
+
         // Comprobamos que la nueva contraseña es igual a la confirmación de la misma
         if (newPass !== confirmNewPass) {
             throw generateError('Las contraseñas no coinciden', 401);

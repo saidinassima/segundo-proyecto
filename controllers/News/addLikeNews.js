@@ -1,18 +1,25 @@
 const getDB = require('../../db/getDB');
-const { generateError } = require('../../helpers');
+const { generateError, validateSchema } = require('../../helpers');
+const idNewsSchema = require('../../schemas/idNewsSchema');
 const addLikesNews = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
         // Recuperamos el id del usuario
         const idUserAuth = req.userAuth.id;
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de idNewsSchema
+        validateSchema(idNewsSchema, req.params);
+
         // Destructuramos el id de las noticias de los path params
         const { idNews } = req.params;
+
         // Comprobamos que el ususario no es el propietario de la noticia
         const [news] = await connection.query(
             `SELECT * FROM news WHERE id = ?`,
             [idNews]
         );
+
         // Si el idUser de la consulta es igual al id del ususario logueado
         if (news[0].idUser === idUserAuth) {
             throw generateError(
@@ -20,11 +27,13 @@ const addLikesNews = async (req, res, next) => {
                 409
             );
         }
+
         // Comprobar que este usuario no tiene añadido ya esta noticia a sus likes
         const [[like]] = await connection.query(
             `SELECT * FROM user_like_news WHERE idUser = ? AND idNews = ?`,
             [idUserAuth, idNews]
         );
+
         // Si no está en favoritos, lo añadimos
         if (!like) {
             await connection.query(
@@ -59,4 +68,5 @@ const addLikesNews = async (req, res, next) => {
         if (connection) connection.release();
     }
 };
+
 module.exports = addLikesNews;

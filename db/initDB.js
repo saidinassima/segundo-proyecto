@@ -40,6 +40,7 @@ async function main() {
                 theme VARCHAR(100) NOT NULL,
                 idUser INT UNSIGNED NOT NULL,
                 FOREIGN KEY (idUser) REFERENCES user(id)
+                ON DELETE CASCADE
 
             )`
         );
@@ -49,8 +50,8 @@ async function main() {
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 idUser INT UNSIGNED NOT NULL,
                 idNews INT UNSIGNED NOT NULL,
-                FOREIGN KEY (idUser) REFERENCES user(id),
-                FOREIGN KEY (idNews) REFERENCES news(id)
+                FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE,
+                FOREIGN KEY (idNews) REFERENCES news(id) ON DELETE CASCADE
             )`
         );
 
@@ -59,8 +60,8 @@ async function main() {
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 idUser INT UNSIGNED NOT NULL,
                 idNews INT UNSIGNED NOT NULL,
-                FOREIGN KEY (idUser) REFERENCES user(id),
-                FOREIGN KEY (idNews) REFERENCES news(id)
+                FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE,
+                FOREIGN KEY (idNews) REFERENCES news(id) ON DELETE CASCADE
             )`
         );
 

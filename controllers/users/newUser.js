@@ -3,8 +3,13 @@
 */
 
 const getDB = require('../../db/getDB');
-const { generateError, generateRandomCode } = require('../../helpers');
+const {
+    generateError,
+    generateRandomCode,
+    validateSchema,
+} = require('../../helpers');
 const bcrypt = require('bcrypt');
+const newUsersSchema = require('../../schemas/newusersSchema');
 
 // Declaramos la variable que establecerá lo "complicada" que encriptará la contraseña
 const saltRounds = 10;
@@ -16,14 +21,11 @@ const newUser = async (req, res, next) => {
         // Abrimos una conexión a la base de datos
         connection = await getDB();
 
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de usersSchema
+        await validateSchema(newUsersSchema, req.body);
+
         // Obtenemos los campos necesarios del req.body
         const { username, email, password } = req.body;
-
-        // Comprobamos que ha introducido todos los campos obligatorios
-        if (!username || !email || !password) {
-            // Generamos un error con el mensaje correspondiente
-            throw generateError('Faltan datos obligatorios.', 400); // Bad Request
-        }
 
         // Comprobamos que el email o el username no esté ya en la base de datos
         const [userMail] = await connection.query(
@@ -63,9 +65,9 @@ const newUser = async (req, res, next) => {
 
         // Guardamos el nuevo usuario
         await connection.query(
-            `INSERT INTO user (username, email, password, registrationCode)
-            VALUES (?, ?, ?, ?)`,
-            [username, email, hashedPassword, registrationCode]
+            `INSERT INTO user (username, email, password)
+            VALUES (?, ?, ?)`,
+            [username, email, hashedPassword]
         );
 
         // Enviamos la respuesta

@@ -1,24 +1,31 @@
 const getDB = require('../../db/getDB');
-const { deletePhoto } = require('../../helpers');
+const { deletePhoto, validateSchema } = require('../../helpers');
+const idNewsSchema = require('../../schemas/idNewsSchema');
 
 const deleteNews = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de idNewsSchema
+        validateSchema(idNewsSchema, req.params);
+
         // Destructuramos el id de la noticia
         const { idNews } = req.params;
+
         // Primero comprobamos que e la noticia tiene fotos
-        const [photos] = await connection.query(
+        const [[entries]] = await connection.query(
             `
         SELECT photo FROM news WHERE id = ?
         `,
             [idNews]
         );
-        // Utilizamos un bucle para recorrer las fotos de la noticia de 1 en 1 y eliminarlas del servidor
-        for (let i = 0; i < photos.length; i++) {
+
+        if (!entries) {
             // Ejecutamos la función deletePhoto para eliminar cada una de las fotos de la noticia
-            await deletePhoto(photos[i].photo, 1);
+            await deletePhoto(entries.photo);
         }
+
         // Eliminamos las fotos de la noticia en la base de datos
         await connection.query(
             `
@@ -26,13 +33,7 @@ const deleteNews = async (req, res, next) => {
         `,
             [idNews]
         );
-        // Una vez eliminadas las fotos, eliminamos la noticia
-        await connection.query(
-            `
-        DELETE FROM news WHERE id = ?
-        `,
-            [idNews]
-        );
+
         res.send({
             stauts: 'ok',
             message: 'Noticia eliminada con éxito',
