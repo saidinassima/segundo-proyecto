@@ -35,11 +35,13 @@ const getUserProfile = require('./controllers/News/getUserProfile');
 const photoNews = require('./controllers/News/addNewsPhoto');
 const listNews = require('./controllers/News/listNews');
 const getNewById = require('./controllers/News/getNewByID');
-const listFilterUserNews = require('./controllers/News/listFilterNews');
 const addDunlikesNews = require('./controllers/News/addUnlikeNews');
 const addLikesNews = require('./controllers/News/addLikeNews');
 const editNews = require('./controllers/News/editNews');
 const deleteNews = require('./controllers/News/deleteNews');
+
+// Importamos las variables de entorno que hemos creado para la conexión
+const { Port } = process.env;
 
 /*   ### Middlewares ###  */
 
@@ -77,9 +79,6 @@ app.get('/listNews', listNews);
 
 // Listar Noticias por id de Noticia
 app.get('/news/:idNew', getNewById);
-
-// Listar Noticias filtradas por tema
-app.get('/listFilterNews', listFilterUserNews);
 
 // Añadir la photo de la Noticia
 app.post('/News/:idNews/photo', isAuth, photoNews);
@@ -119,6 +118,6 @@ app.use((req, res) => {
 });
 
 // Ponemos el servidor a la escucha
-app.listen(3000, () => {
-    console.log(`Server listening at http://localhost:3000`);
+app.listen(Port, () => {
+    console.log(`Server listening at http://localhost:${Port}`);
 });
