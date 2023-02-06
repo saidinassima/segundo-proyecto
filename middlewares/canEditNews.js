@@ -1,13 +1,20 @@
 const getDB = require('../db/getDB');
-const { generateError } = require('../helpers');
+const { generateError, validateSchema } = require('../helpers');
+const idNewsSchema = require('../schemas/idNewsSchema');
+
 const canEditNews = async (req, res, next) => {
     let connection;
     try {
         connection = await getDB();
         // Recuperamos el id del usuario que tiene la sesión iniciada
         const idUserAuth = req.userAuth.id;
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de idNewsSchema
+        validateSchema(idNewsSchema, req.params);
+
         // Destructuramos de los parámetros de ruta el id de la noticia que quiere modificar
         const { idNews } = req.params;
+
         // Si la consulta de la base de datos no devuelve ningún valor, es que esta noticia no pertenece al usuario que tiene la sesión iniciada
         const [news] = await connection.query(
             `
