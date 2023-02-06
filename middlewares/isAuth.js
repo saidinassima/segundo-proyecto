@@ -3,8 +3,9 @@
 */
 
 const getDB = require('../db/getDB');
-const { generateError } = require('../helpers');
+const { generateError, validateSchema } = require('../helpers');
 const jwt = require('jsonwebtoken');
+const authSchema = require('../schemas/AuthSchema');
 require('dotenv').config(); // dependencia necesaria para leer la variable de entorno SECRET
 
 const isAuth = async (req, res, next) => {
@@ -12,6 +13,9 @@ const isAuth = async (req, res, next) => {
 
     try {
         connection = await getDB();
+
+        // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de authSchema
+        validateSchema(authSchema, req.headers);
 
         // Recuperar la cabecera de autorización
         const { authorization } = req.headers;
