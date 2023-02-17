@@ -7,8 +7,8 @@ const Joi = require('joi');
 const newsSchema = Joi.object().keys({
     title: Joi.string()
         .required()
-        .min(3)
-        .max(30)
+        .min(1)
+        .max(100)
         .regex(/[A-Za-z0-9]/)
         .error((errors) => {
             if (
@@ -23,8 +23,8 @@ const newsSchema = Joi.object().keys({
             }
         }),
     leadIn: Joi.string()
-        .min(10)
-        .max(50)
+        .min(1)
+        .max(100)
         .regex(/[A-Za-z0-9]/)
         .error((errors) => {
             if (
@@ -40,7 +40,7 @@ const newsSchema = Joi.object().keys({
         }),
 
     text: Joi.string()
-        .min(10)
+        .min(1)
         .max(100)
         .regex(/[A-Za-z0-9]/)
         .error((errors) => {
@@ -59,7 +59,7 @@ const newsSchema = Joi.object().keys({
     theme: Joi.string()
         .required()
         .min(5)
-        .max(20)
+        .max(100)
         .regex(/[A-Za-z]/)
         .error((errors) => {
             if (

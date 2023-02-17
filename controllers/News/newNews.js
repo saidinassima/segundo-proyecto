@@ -3,6 +3,7 @@
 */
 
 // Guardamos la conexion con la base de datos en una variable
+
 const getDB = require('../../db/getDB');
 const { validateSchema } = require('../../helpers');
 const newsSchema = require('../../schemas/newsSchema');
@@ -30,7 +31,7 @@ const newNews = async (req, res, next) => {
             INSERT INTO news(title,photo,leadIn,text,theme,idUser)
             VALUES (?, ?, ?, ?, ?,?)
         `,
-            [title, '', leadIn, text, theme, idUserAuth]
+            [title, null, leadIn, text, theme, idUserAuth]
         );
 
         // Respondemos con las datos de la noticia insertada

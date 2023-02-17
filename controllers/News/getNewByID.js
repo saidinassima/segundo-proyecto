@@ -33,7 +33,7 @@ const getNewById = async (req, res, next) => {
         // Respondemos con las noticias del usuario
         res.send({
             status: 'Ok',
-            message: `¡Noticia con id ${idNew}!`,
+            message: `¡Noticia con id ${idNews}!`,
             data: selectedNew,
         });
     } catch (error) {

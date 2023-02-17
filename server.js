@@ -78,7 +78,7 @@ app.get('/profile', isAuth, getUserProfile);
 app.get('/listNews', listNews);
 
 // Listar Noticias por id de Noticia
-app.get('/news/:idNew', getNewById);
+app.get('/news/:idNews', getNewById);
 
 // Añadir la photo de la Noticia
 app.post('/News/:idNews/photo', isAuth, photoNews);

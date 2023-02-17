@@ -1,5 +1,5 @@
 {
-    "name": "Segundo-Proyecto",
+    "name": "NoticasCol-Backend",
     "version": "1.0.0",
     "description": "Es api de noticias tipo Reddit.",
     "main": "server.js",
