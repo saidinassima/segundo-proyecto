@@ -70,6 +70,7 @@ const addNewsPhoto = async (req, res, next) => {
         res.send({
             status: 'Ok',
             message: '¡Foto de la Noticia añadida con éxito!',
+            data: { photo: photoName },
         });
     } catch (error) {
         next(error);

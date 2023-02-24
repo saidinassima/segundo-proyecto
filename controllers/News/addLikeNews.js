@@ -50,6 +50,7 @@ const addLikesNews = async (req, res, next) => {
             res.send({
                 status: 'ok',
                 message: 'Se le ha dado like a la noticia',
+                data: { liked: true },
             });
         } else {
             // Si la noticia está marcada como like, la eliminamos
@@ -60,6 +61,7 @@ const addLikesNews = async (req, res, next) => {
             res.send({
                 status: 'ok',
                 message: 'Se le ha quitado el like a la noticia',
+                data: { liked: false },
             });
         }
     } catch (error) {

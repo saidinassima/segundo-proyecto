@@ -39,7 +39,7 @@ async function savePhoto(imagen) {
         photoPath = path.join(photosDir, imageName);
 
         // Guardamos la imagen
-        sharpImage.toFile(photoPath);
+        await sharpImage.toFile(photoPath);
 
         // Devolvemos el nombre de imagen generado
         return imageName;

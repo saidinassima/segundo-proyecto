@@ -2,6 +2,9 @@
     Controlador para Mostrar las noticias de un usuario logeado
 */
 
+const jwt = require('jsonwebtoken');
+const { token } = require('morgan');
+
 //Guardamos la conexion con la base de datos en una variable
 const getDB = require('../../db/getDB');
 const { validateSchema } = require('../../helpers');
@@ -15,7 +18,18 @@ const listNews = async (req, res, next) => {
         //Creamos la conexion con la base de datos
         connection = await getDB();
 
-        let sqlQuery = `SELECT n.*,COUNT( DISTINCT l.id) likes ,COUNT( DISTINCT u.id) dislikes FROM news n LEFT JOIN user_like_news l ON n.id=l.idNews LEFT JOIN user_unlike_news u ON n.id=u.idNews`;
+        const { authorization } = req.headers;
+
+        // Variable que va a guardar la info del token
+        let tokenInfo;
+
+        if (authorization) {
+            // Desencriptamos el token
+            tokenInfo = jwt.verify(authorization, process.env.SECRET);
+        }
+
+        console.log(tokenInfo);
+        let sqlQuery = `SELECT n.*,COUNT( DISTINCT l.id) likes ,COUNT( DISTINCT u.id) dislikes, IF(MAX(l2.idUser) IS NULL,FALSE,TRUE) loggedUserLiked,IF(MAX(u2.idUser) IS NULL,FALSE,TRUE) loggedUserDisliked  FROM news n LEFT JOIN user_like_news l ON n.id=l.idNews LEFT JOIN user_like_news l2 ON (n.id=l2.idNews AND l2.idUser=?) LEFT JOIN user_unlike_news u ON n.id=u.idNews LEFT JOIN user_unlike_news u2 ON (n.id=u2.idNews AND u2.idUser=?) `;
 
         // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de newsSchema
         await validateSchema(filterThemeSchema, req.query);
@@ -31,7 +45,11 @@ const listNews = async (req, res, next) => {
         sqlQuery += ' GROUP BY n.id';
 
         // Recuperamos los datos de las noticias guardadas en la base de datos
-        const [news] = await connection.query(sqlQuery, [theme]);
+        const [news] = await connection.query(sqlQuery, [
+            tokenInfo?.id,
+            tokenInfo?.id,
+            theme,
+        ]);
 
         // Respondemos con las noticias del usuario
         res.send({

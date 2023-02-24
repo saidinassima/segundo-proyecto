@@ -49,6 +49,7 @@ const addDunlikesNews = async (req, res, next) => {
             res.send({
                 status: 'ok',
                 message: 'Se le ha dado dislike a la noticia',
+                data: { unliked: true },
             });
         } else {
             // Si la noticia está marcada como dislike, la eliminamos
@@ -60,6 +61,7 @@ const addDunlikesNews = async (req, res, next) => {
             res.send({
                 status: 'ok',
                 message: 'Se ha quitado el dislike',
+                data: { unliked: false },
             });
         }
     } catch (error) {

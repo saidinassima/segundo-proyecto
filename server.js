@@ -20,6 +20,8 @@ app.use(morgan('dev'));
 // instalación -> npm i express-fileupload
 app.use(fileUpload());
 
+app.use(express.static('static'));
+
 /*   ### Controladores de Usuarios ###  */
 
 const newUser = require('./controllers/users/newUser');

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5f19684d-73b7-437b-ae8b-7dcbdd30c202",
+		"_postman_id": "28badd43-0281-4cae-b7f1-e3da0ebe309b",
 		"name": "Noticias-Colavorativas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "24891246"
@@ -23,7 +23,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"ainoa\",\n    \"email\": \"ainoa45@gmail.com\",\n    \"password\": \"12345\",\n    \"registrationCode\": \"23456\"\n}",
+							"raw": "{\n    \"username\": \"ainoa\",\n    \"email\": \"ainoa45@gmail.com\",\n    \"password\": \"12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -190,7 +190,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Noticia3\",\n    \"leadIn\": \"Lorem ipsum dolor sit amet consectetur, adipisicing elit.\",\n    \"text\": \"Lorem ipsum dolor sit\",\n    \"theme\": \"Historia\"\n}",
+							"raw": "{\n    \"title\": \"Noticia4\",\n    \"leadIn\": \"Lorem ipsum dolor sit amet consectetur, adipisicing elit.\",\n    \"text\": \"Lorem ipsum dolor sit\",\n    \"theme\": \"Historia\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -358,7 +358,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Noticia7\",\r\n    \"leadIn\":\"Lorem ipsum dolor sit amet consectetur, adipisicing elit.\",\r\n    \"text\": \"Lorem ipsum dolor sit\",\r\n    \"theme\":\"Historia\"\r\n    }",
+							"raw": "{\r\n    \"title\": \"Noticia2\",\r\n    \"leadIn\":\"Lorem ipsum dolor sit amet consectetur, adipisicing elit.\",\r\n    \"text\": \"Lorem ipsum dolor sit\",\r\n    \"theme\":\"Historia\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -366,18 +366,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{server}}/News/4?idNews=2",
+							"raw": "{{server}}/News/2",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"News",
-								"4"
+								"2"
 							],
 							"query": [
 								{
 									"key": "idNews",
-									"value": "2"
+									"value": "9",
+									"disabled": true
 								}
 							]
 						}
@@ -388,7 +389,13 @@
 					"name": "Listar todas las Noticias",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{server}}/listNews",
 							"host": [
@@ -396,6 +403,13 @@
 							],
 							"path": [
 								"listNews"
+							],
+							"query": [
+								{
+									"key": "theme",
+									"value": "Historia",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -407,13 +421,25 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/news/1",
+							"raw": "{{server}}/news/:idNews?idNews=2",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"news",
-								"1"
+								":idNews"
+							],
+							"query": [
+								{
+									"key": "idNews",
+									"value": "2"
+								}
+							],
+							"variable": [
+								{
+									"key": "idNews",
+									"value": null
+								}
 							]
 						}
 					},
@@ -500,12 +526,12 @@
 	"variable": [
 		{
 			"key": "server",
-			"value": "",
+			"value": "http://localhost:4000",
 			"type": "default"
 		},
 		{
 			"key": "token",
-			"value": "",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc3MjU0MzUxLCJleHAiOjE2NzgxMTgzNTF9.oj9AjlmCWvKp8x1QVJO3FaEiR5mPQJQfZUUW_358eDU",
 			"type": "string"
 		}
 	]
