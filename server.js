@@ -20,6 +20,7 @@ app.use(morgan('dev'));
 // instalación -> npm i express-fileupload
 app.use(fileUpload());
 
+//Middleware para hacer statica una carpeta para poder usarla en React
 app.use(express.static('static'));
 
 /*   ### Controladores de Usuarios ###  */
