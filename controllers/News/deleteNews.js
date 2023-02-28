@@ -35,7 +35,7 @@ const deleteNews = async (req, res, next) => {
         );
 
         res.send({
-            stauts: 'ok',
+            status: 'ok',
             message: 'Noticia eliminada con éxito',
         });
     } catch (error) {

@@ -6,7 +6,10 @@ const delPassSchema = require('../../schemas/DelPassSchema');
 const deleteUser = async (req, res, next) => {
     let connection;
     try {
+        // Abrimos una conexión con la base de datos
         connection = await getDB();
+
+        // Recuperamos la contraseña
         const idUserAuth = req.userAuth.id;
 
         // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de usersSchema

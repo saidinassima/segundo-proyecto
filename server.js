@@ -30,6 +30,7 @@ const loginUser = require('./controllers/users/loginUser');
 const editUserPass = require('./controllers/users/editPassUser');
 const editUser = require('./controllers/users/editUserData');
 const deleteUser = require('./controllers/users/deleteUser');
+const userName = require('./controllers/users/userName');
 
 /*   ### Controladores de News ###  */
 
@@ -68,6 +69,9 @@ app.put('/user', isAuth, editUser);
 
 // Borrar un usuario
 app.delete('/user', isAuth, deleteUser);
+
+// Mostrar nombre de usuario
+app.get('/user/username', isAuth, userName);
 
 /*   ### Endpoints News ###  */
 

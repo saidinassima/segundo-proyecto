@@ -9,6 +9,7 @@ let saltRounds = 1;
 const editUserPass = async (req, res, next) => {
     let connection;
     try {
+        // Abrimos una conexión con la base de datos
         connection = await getDB();
 
         // Recuperamos la contraseña

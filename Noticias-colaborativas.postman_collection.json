@@ -171,6 +171,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Mostrar Nombre usuario Logeado",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/user/username",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"username"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -531,7 +555,7 @@
 		},
 		{
 			"key": "token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc3MjU0MzUxLCJleHAiOjE2NzgxMTgzNTF9.oj9AjlmCWvKp8x1QVJO3FaEiR5mPQJQfZUUW_358eDU",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsImlhdCI6MTY3NzYwMjE0NiwiZXhwIjoxNjc4NDY2MTQ2fQ.-yH6Qx5qidbkyApMFITJlBHqX5SHAvFcJk9OGiVq8w8",
 			"type": "string"
 		}
 	]

@@ -28,7 +28,6 @@ const listNews = async (req, res, next) => {
             tokenInfo = jwt.verify(authorization, process.env.SECRET);
         }
 
-        console.log(tokenInfo);
         let sqlQuery = `SELECT n.*,COUNT( DISTINCT l.id) likes ,COUNT( DISTINCT u.id) dislikes, IF(MAX(l2.idUser) IS NULL,FALSE,TRUE) loggedUserLiked,IF(MAX(u2.idUser) IS NULL,FALSE,TRUE) loggedUserDisliked  FROM news n LEFT JOIN user_like_news l ON n.id=l.idNews LEFT JOIN user_like_news l2 ON (n.id=l2.idNews AND l2.idUser=?) LEFT JOIN user_unlike_news u ON n.id=u.idNews LEFT JOIN user_unlike_news u2 ON (n.id=u2.idNews AND u2.idUser=?) `;
 
         // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de newsSchema

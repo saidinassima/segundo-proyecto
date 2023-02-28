@@ -5,6 +5,7 @@ const editUsersDataSchema = require('../../schemas/editUserDataSchema');
 const editUser = async (req, res, next) => {
     let connection;
     try {
+        // Abrimos una conexión con la base de datos
         connection = await getDB();
 
         // Guardamos el id del usuario que ha iniciado sesion
