@@ -50,8 +50,11 @@ const { Port } = process.env;
 /*   ### Middlewares ###  */
 
 // Middleware de validación de usuario
-const isAuth = require('./middlewares/isAuth');
+const { isAuth, isUser } = require('./middlewares/isAuth');
 const canEditNews = require('./middlewares/canEditNews');
+
+//Middleware por el qu pasa todas las peticiones
+app.use(isAuth);
 
 /*   ### Endpoints Usuarios ###  */
 
@@ -62,24 +65,24 @@ app.post('/register', newUser);
 app.post('/login', loginUser);
 
 // Editar Password del usuario
-app.put('/user/password', isAuth, editUserPass);
+app.put('/user/password', isUser, editUserPass);
 
 // Editar email y Username del usuario
-app.put('/user', isAuth, editUser);
+app.put('/user', isUser, editUser);
 
 // Borrar un usuario
-app.delete('/user', isAuth, deleteUser);
+app.delete('/user', isUser, deleteUser);
 
 // Mostrar nombre de usuario
-app.get('/user/username', isAuth, userName);
+app.get('/user/username', isUser, userName);
 
 /*   ### Endpoints News ###  */
 
 // Registrar nueva Noticia
-app.post('/newNews', isAuth, newNews);
+app.post('/newNews', isUser, newNews);
 
 // Listar las Noticias de un usuario
-app.get('/profile', isAuth, getUserProfile);
+app.get('/profile', isUser, getUserProfile);
 
 // Listar todas las noticias
 app.get('/listNews', listNews);
@@ -88,16 +91,16 @@ app.get('/listNews', listNews);
 app.get('/news/:idNews', getNewById);
 
 // Añadir la photo de la Noticia
-app.post('/News/:idNews/photo', isAuth, photoNews);
+app.post('/News/:idNews/photo', isUser, photoNews);
 
 // Dar dislike a una noticia
-app.post('/News/:idNews/unlike', isAuth, addDunlikesNews);
+app.post('/News/:idNews/unlike', isUser, addDunlikesNews);
 
 // Dar like a una noticia
-app.post('/News/:idNews/like', isAuth, addLikesNews);
+app.post('/News/:idNews/like', isUser, addLikesNews);
 
 // Editar una Noticia
-app.put('/News/:idNews', isAuth, editNews, canEditNews);
+app.put('/News/:idNews', isUser, editNews, canEditNews);
 
 // Borrar una Noticia
 app.delete('/News/:idNews', deleteNews);

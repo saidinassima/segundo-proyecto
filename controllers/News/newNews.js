@@ -26,7 +26,7 @@ const newNews = async (req, res, next) => {
         const { title, leadIn, text, theme } = req.body;
 
         // Insertamos los datos de la noticia en la base de datos
-        await connection.query(
+        const [data] = await connection.query(
             `
             INSERT INTO news(title,photo,leadIn,text,theme,idUser)
             VALUES (?, ?, ?, ?, ?,?)
@@ -38,14 +38,19 @@ const newNews = async (req, res, next) => {
         res.send({
             status: 'Ok',
             message: '¡Noticia creada correctamente!',
-            data: [
-                {
-                    title: title,
-                    leadIn: leadIn,
-                    texto: text,
-                    Tema: theme,
-                },
-            ],
+            data: {
+                id: data.insertId,
+                idUser: idUserAuth,
+                title: title,
+                leadIn: leadIn,
+                text: text,
+                theme: theme,
+                likes: 0,
+                dislikes: 0,
+                photo: null,
+                loggedUserDisliked: 0,
+                loggedUserLiked: 0,
+            },
         });
     } catch (error) {
         next(error);

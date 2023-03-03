@@ -23,7 +23,7 @@ const getUserProfile = async (req, res, next) => {
 
         // Recuperamos los datos de las noticias guardadas en la base de datos
         const [news] = await connection.query(
-            `SELECT n.*,COUNT( DISTINCT l.id) likes ,COUNT( DISTINCT u.id) dislikes FROM news n LEFT JOIN user_like_news l ON n.id=l.idNews LEFT JOIN user_unlike_news u ON n.id=u.idNews WHERE n.idUser = ? GROUP BY n.id `,
+            `SELECT n.*,COUNT( DISTINCT l.id) likes ,COUNT( DISTINCT u.id) dislikes FROM news n LEFT JOIN user_like_news l ON n.id=l.idNews LEFT JOIN user_unlike_news u ON n.id=u.idNews WHERE n.idUser = ? GROUP BY n.id ORDER BY n.id DESC`,
             [idUserAuth]
         );
 

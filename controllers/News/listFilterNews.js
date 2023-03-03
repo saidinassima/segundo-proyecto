@@ -21,7 +21,7 @@ const listFilterUserNews = async (req, res, next) => {
         const [news] = await connection.query(
             `SELECT *
               FROM news
-             WHERE theme = ?`,
+             WHERE theme = ? ORDER BY id DESC`,
             [search]
         );
 

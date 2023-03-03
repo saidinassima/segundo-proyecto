@@ -16,14 +16,17 @@ const isAuth = async (req, res, next) => {
         connection = await getDB();
 
         // Validamos los datos que recuperamos en el cuerpo de la petición con el schema de authSchema
-        validateSchema(authSchema, req.headers);
+        //validateSchema(authSchema, req.headers);
 
         // Recuperar la cabecera de autorización
         const { authorization } = req.headers;
 
+        console.log(authorization);
+
         // Si no existe la cabecera de autorizacion
         if (!authorization) {
-            throw generateError('¡Falta la cabecera de autorización!', 401); // Unauthorized
+            // throw generateError('¡Falta la cabecera de autorización!', 401); // Unauthorized
+            return next();
         }
 
         // Variable que va a guardar la info del token
@@ -60,4 +63,9 @@ const isAuth = async (req, res, next) => {
     }
 };
 
-module.exports = isAuth;
+const isUser = (req, res, next) => {
+    if (req.userAuth) return next();
+    throw generateError('¡No puedes continuar!', 401);
+};
+
+module.exports = { isAuth, isUser };
